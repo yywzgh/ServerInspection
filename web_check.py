@@ -37,6 +37,7 @@ import urllib.request
 # 定义要检测的服务器,URL 端口号 资源名称
 
 web_servers = [
+                ('http://192.168.2.210', 80, 'index.php'),
                 ('http://mail.vonework.com', 80, 'index.php'),
                 ('http://pre.admin.dhgc.vonework.com', 80, 'index.php'),
                 ('http://pre.store.dhgc.vonework.com', 80, 'index.php'),
