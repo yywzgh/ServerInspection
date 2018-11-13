@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
-__Author__ = "xiewm"
-__Date__ = '2017/12/26 13:46'
+__Author__ = "guohao"
+__Date__ = '2018-11-13'
 
 
 import requests
 
 import json
+
+from deploy import config_util
 
 class GitLabAPI(object):
 
@@ -76,33 +78,84 @@ class GitLabAPI(object):
                 tags.append("%s     %s"%(tag_name, info))
         return tags
 
+    def add_member_to_project(self):
+
+        url = "http://git.vonework.com/api/v4/projects/18/members"
+
+        # userid 3 秦晓武
+        # userid 4 陶君行
+        # userid 5 卞淼
+        # userid 6 杨芳
+        # userid 7 李微
+        # userid 13 王诗晨
+
+        data = json.dumps({'id': 18, 'user_id': 4, 'access_level': 40})
+
+
+        response = requests.post(url, headers=self.headers, data=data)
+
+        print(response.json())
+
+        return_code = response.status_code
+
+        if return_code not in [200, 201]:
+            return_text = response.text
+            raise Exception(return_text)
+
+    # 创建group
+    def create_project(self):
+
+        url = "http://git.vonework.com/api/v4/projects"
+
+        data = json.dumps({'name': 'hannan_project_test', 'namespace_id': 24})
+
+        response = requests.post(url, headers=self.headers, data=data)
+
+        print(response.json())
+
+        return_code = response.status_code
+
+        if return_code not in [200, 201]:
+            return_text = response.text
+            raise Exception(return_text)
+
+        return response.json()['id']
+
+    # 创建group
     def create_group(self):
 
         url = "http://git.vonework.com/api/v4/groups"
 
-        data = json.dumps({'name':'hannan_test_3', 'path':'hannan_test_3'})
+        data = json.dumps({'name':'hannan_test_6', 'path':'hannan_test_6'})
 
         response = requests.post(url, headers=self.headers, data=data)
 
-        status_code = response.status_code
+        print(response.json())
 
-        print(status_code)
+        return_code = response.status_code
 
-        #print(response['status'])
+        if return_code not in [200, 201]:
+            return_text = response.text
+            raise Exception(return_text)
 
-        status_code = response.status_code
-        #data_json = json.loads(response.text)
-
-        if status_code != 200:
-            raise Exception
-        #print('\n解析获取json中data的值:\n', data_json['data'])
+        return response.json()['id']
 
 if __name__ == "__main__":
-    headers = {'Private-Token': '************','Accept': 'application/json', 'Content-Type':'application/json'} #你的gitlab账户的private token
+
+    token = config_util.get_config_value('gitlab', 'token')
+
+    headers = {'Private-Token': '_yRh1xcbhhmbz58hX4bz','Accept': 'application/json', 'Content-Type':'application/json'} #你的gitlab账户的private token
+
     api = GitLabAPI(headers=headers)
     #content = api.get_user_projects()
 
-    api.create_group();
+    group_id = api.create_group()
+
+    print(group_id)
+
+    #api.create_project()
+
+    #api.add_member_to_project()
 
     # user_id = api.get_user_id('liming')
     # print "user_id:", user_id
