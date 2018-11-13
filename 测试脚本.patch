@@ -1,0 +1,15 @@
+Index: web_check.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- web_check.py	(date 1541151062000)
++++ web_check.py	(date 1541151384137)
+@@ -40,6 +40,7 @@
+                 ('http://192.168.2.210', 80, 'index.php'),
+                 ('http://mail.vonework.com', 80, 'index.php'),
+                 ('http://pre.admin.dhgc.vonework.com', 80, 'index.php'),
++
+                 ('http://pre.store.dhgc.vonework.com', 80, 'index.php'),
+                 ('http://pre.admin.aihua.vonework.com', 80, 'index.php'),
+                 ('http://pre.admin.kale.vonework.com', 80, 'index.php')
