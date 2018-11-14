@@ -4,6 +4,7 @@ __Date__ = '2018-11-13'
 
 import configparser
 
+'''
 cf = configparser.ConfigParser()
 
 # read config
@@ -19,10 +20,16 @@ print('url:', opts)
 items = cf.items("gitlab")
 print('url:', items)
 
-vaule = cf.get('gitlab','url')
+vaule = cf.get('gitlab', 'host')
 
 print(vaule)
+'''
 
 
-def get_config_value(section, option) :
-    return cf.get(section,option)
+def get_config_value(section, option):
+
+    cf = configparser.ConfigParser()
+
+    cf.read("conf.ini")
+
+    return cf.get(section, option)

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/ServerInspection.iml" filepath="$PROJECT_DIR$/.idea/ServerInspection.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../sqlmap/.idea/sqlmap.iml" filepath="$PROJECT_DIR$/../sqlmap/.idea/sqlmap.iml" />
     </modules>
   </component>
 </project>

@@ -9,10 +9,12 @@ import json
 
 from deploy import config_util
 
+
 class GitLabAPI(object):
 
-    def __init__(self, headers=None, *args, **kwargs):
+    def __init__(self, headers=None, host=None, *args, **kwargs):
         self.headers = headers
+        self.host = host
 
     def get_user_id(self, username):
         user_id = None
@@ -78,9 +80,12 @@ class GitLabAPI(object):
                 tags.append("%s     %s"%(tag_name, info))
         return tags
 
-    def add_member_to_project(self):
+    # 添加成员到project
+    def add_member_to_project(self, project_id):
 
-        url = "http://git.vonework.com/api/v4/projects/18/members"
+        # url = "http://git.vonework.com/api/v4/projects/18/members"
+
+        url = self.host + "/projects/" + str(project_id) + "/members"
 
         # userid 3 秦晓武
         # userid 4 陶君行
@@ -89,12 +94,34 @@ class GitLabAPI(object):
         # userid 7 李微
         # userid 13 王诗晨
 
-        data = json.dumps({'id': 18, 'user_id': 4, 'access_level': 40})
+        for i in [3, 4, 5, 6, 7, 13]:
 
+            data = json.dumps({'id': project_id, 'user_id': i, 'access_level': 40})
+
+            response = requests.post(url, headers=self.headers, data=data)
+
+            # print(response.json())
+
+            return_code = response.status_code
+
+            if return_code not in [200, 201]:
+                return_text = response.text
+                raise Exception(return_text)
+
+        print("------------project member 更新成功-------------------")
+
+    # 创建project
+    def create_project(self, namespace_id):
+
+        url = self.host + "/projects"
+
+        project_name = config_util.get_config_value('gitlab', 'project_name')
+
+        data = json.dumps({'name': project_name, 'namespace_id': namespace_id})
 
         response = requests.post(url, headers=self.headers, data=data)
 
-        print(response.json())
+        # print(response.json())
 
         return_code = response.status_code
 
@@ -102,35 +129,24 @@ class GitLabAPI(object):
             return_text = response.text
             raise Exception(return_text)
 
-    # 创建group
-    def create_project(self):
-
-        url = "http://git.vonework.com/api/v4/projects"
-
-        data = json.dumps({'name': 'hannan_project_test', 'namespace_id': 24})
-
-        response = requests.post(url, headers=self.headers, data=data)
-
-        print(response.json())
-
-        return_code = response.status_code
-
-        if return_code not in [200, 201]:
-            return_text = response.text
-            raise Exception(return_text)
+        print("------------project 创建成功-------------------")
 
         return response.json()['id']
 
     # 创建group
     def create_group(self):
 
-        url = "http://git.vonework.com/api/v4/groups"
+        url = self.host + "/groups"
 
-        data = json.dumps({'name':'hannan_test_6', 'path':'hannan_test_6'})
+        group_name = config_util.get_config_value('gitlab', 'group_name')
+
+        group_path = config_util.get_config_value('gitlab', 'group_path')
+
+        data = json.dumps({'name': group_name, 'path': group_path})
 
         response = requests.post(url, headers=self.headers, data=data)
 
-        print(response.json())
+        #print(response.json())
 
         return_code = response.status_code
 
@@ -138,24 +154,27 @@ class GitLabAPI(object):
             return_text = response.text
             raise Exception(return_text)
 
+        print("------------group 创建成功-------------------")
+
         return response.json()['id']
+
 
 if __name__ == "__main__":
 
     token = config_util.get_config_value('gitlab', 'token')
 
-    headers = {'Private-Token': '_yRh1xcbhhmbz58hX4bz','Accept': 'application/json', 'Content-Type':'application/json'} #你的gitlab账户的private token
+    host = config_util.get_config_value('gitlab', 'host')
 
-    api = GitLabAPI(headers=headers)
-    #content = api.get_user_projects()
+    # 你的gitlab账户的private token
+    headers = {'Private-Token': token, 'Accept': 'application/json', 'Content-Type': 'application/json'}
+
+    api = GitLabAPI(headers=headers, host=host)
 
     group_id = api.create_group()
 
-    print(group_id)
+    project_id = api.create_project(group_id)
 
-    #api.create_project()
-
-    #api.add_member_to_project()
+    api.add_member_to_project(project_id)
 
     # user_id = api.get_user_id('liming')
     # print "user_id:", user_id
