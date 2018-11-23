@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
-__Author__ = "guohao"
-__Date__ = '2018-11-13'
-
+"""
+Created on Fri Oct 27 09:39:25 2017
+gitAPI操作
+@author: guohao
+"""
 
 import requests
 
 import json
+
+import logging
 
 from deploy import config_util
 
@@ -175,6 +179,10 @@ if __name__ == "__main__":
     project_id = api.create_project(group_id)
 
     api.add_member_to_project(project_id)
+
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    logger = logging.getLogger(__name__)
+    logger.info("日志输出！")
 
     # user_id = api.get_user_id('liming')
     # print "user_id:", user_id
