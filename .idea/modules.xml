@@ -3,7 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/ServerInspection.iml" filepath="$PROJECT_DIR$/.idea/ServerInspection.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../mom_helper/.idea/mom_helper.iml" filepath="$PROJECT_DIR$/../mom_helper/.idea/mom_helper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../momhelp/.idea/momhelp.iml" filepath="$PROJECT_DIR$/../momhelp/.idea/momhelp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../py_utils/.idea/py_utils.iml" filepath="$PROJECT_DIR$/../py_utils/.idea/py_utils.iml" />
       <module fileurl="file://$PROJECT_DIR$/../sqlmap/.idea/sqlmap.iml" filepath="$PROJECT_DIR$/../sqlmap/.idea/sqlmap.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../web_spider/.idea/web_spider.iml" filepath="$PROJECT_DIR$/../web_spider/.idea/web_spider.iml" />
     </modules>
   </component>
 </project>
